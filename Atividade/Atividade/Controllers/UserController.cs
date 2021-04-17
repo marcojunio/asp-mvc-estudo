@@ -1,4 +1,5 @@
 ﻿using Atividade.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Atividade.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         public IActionResult Index()

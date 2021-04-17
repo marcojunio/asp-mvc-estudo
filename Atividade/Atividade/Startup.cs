@@ -1,6 +1,10 @@
+using Atividade.Data;
+using Atividade.Models.Access;
+using Atividade.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +28,25 @@ namespace Atividade
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<BuffetDbContext>
+                (options => options.UseInMemoryDatabase("Buffet"));
+
+            services.AddIdentity<User, Role>(options => 
+                {
+                    options.Password.RequiredLength = 2;
+                    options.Password.RequireLowercase = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireDigit = false;
+                }
+            ).AddEntityFrameworkStores<BuffetDbContext>();
+
+            services.ConfigureApplicationCookie(options =>
+                options.LoginPath = "/Account/Login"
+            );
+
+            services.AddTransient<AccessService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +67,7 @@ namespace Atividade
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
