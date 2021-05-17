@@ -1,17 +1,15 @@
 using Atividade.Data;
 using Atividade.Models.Access;
 using Atividade.Services;
+using Atividade.Services.Buffet;
+using Atividade.Services.Type;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Atividade
 {
@@ -27,10 +25,19 @@ namespace Atividade
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            var connectionString = "server=localhost;user id=root;pwd=123456;database=buffetdb";
+            var serverVersion = new MySqlServerVersion(new Version(8, 0, 22));
+
             services.AddControllersWithViews();
 
-            services.AddDbContext<BuffetDbContext>
-                (options => options.UseInMemoryDatabase("Buffet"));
+            services.AddAutoMapper(typeof(Startup));
+
+            services.AddDbContext<BuffetDbContext>(options =>
+               options.UseMySql(connectionString,serverVersion)
+               .EnableSensitiveDataLogging()
+               .EnableDetailedErrors()
+           );
 
             services.AddIdentity<User, Role>(options => 
                 {
@@ -47,6 +54,13 @@ namespace Atividade
             );
 
             services.AddTransient<AccessService>();
+            services.AddTransient<ClientService>();
+            services.AddTransient<EventService>();
+            services.AddTransient<LocalService>();
+            services.AddTransient<TypeEventService>();
+            services.AddTransient<GuestService>();
+            services.AddTransient<GuestSituationService>();
+            services.AddTransient<SituationEventService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

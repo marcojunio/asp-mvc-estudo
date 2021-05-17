@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Atividade.ViewModel.Buffet.ClientViewModel>
+
+@{
+    ViewData["Title"] = "Clients";
+}
+<h1>List Clients</h1>
+
+<div class="d-flex align-content-lg-start justify-content-between">
+    <p>
+        <a asp-action="Create">Create New</a> |
+        <a asp-controller="User" asp-action="Menu">Back</a>
+    </p>
+    <form asp-action="Search" class="mb-2">
+        <div class="input-group">
+            <div class="form-outline">
+                <input type="search" id="form1" name="nameClient" placeholder="Name" class="form-control" />
+            </div>
+            <button type="submit" style="height:40px" class="btn btn-primary">
+                Search
+            </button>
+        </div>
+    </form>
+</div>
+
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Age)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BirthDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

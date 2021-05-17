@@ -1,7 +1,76 @@
-﻿@{
+﻿@model Atividade.ViewModel.Access.UserViewModel
+
+@{
     ViewData["Title"] = "Manager user";
 }
 
 <div class="text-center">
     <h1 class="display-4">Manager Account</h1>
 </div>
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Address)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cpf)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Cpf)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Age)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Age)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Email)
+        </dd>
+    </dl>
+</div>
+<a asp-action="Edit" asp-route-id="@Model.Id">Change Password</a>
+
+<h2 class="mt-4 text-center">List Last Logins</h2>
+<table class="table text-center mt-4">
+    <thead>
+        <tr>
+            <th>
+                Id Last Login
+            </th>
+            <th>
+                Date Last Login
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.LastLogin)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastLogin)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

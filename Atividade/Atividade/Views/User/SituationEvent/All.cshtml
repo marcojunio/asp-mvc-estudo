@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Atividade.ViewModel.Types.SituationEventViewModel>
+
+@{
+    ViewData["Title"] = "Situation Event";
+}
+<h1>List Situations</h1>
+<p>
+    <a asp-action="Create">Create New</a> | 
+    <a asp-controller="User" asp-action="Menu">Back</a>
+</p>
+<table class="table text-center">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Descrition)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descrition)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

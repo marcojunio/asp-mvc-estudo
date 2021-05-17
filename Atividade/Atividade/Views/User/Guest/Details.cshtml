@@ -1,0 +1,41 @@
+﻿@model Atividade.ViewModel.Buffet.GuestViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Guest's data</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Document)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Document)
+        </dd>
+        <dt class="col-sm-2">
+            Event
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.Event.Descrition)
+        </dd>
+        <dt class="col-sm-2">
+            Guest Situation
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(modelItem => modelItem.GuestSituation.Descrition)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="All">Back</a>
+</div>

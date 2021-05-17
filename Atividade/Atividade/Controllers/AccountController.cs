@@ -22,73 +22,56 @@ namespace Atividade.Controllers
         }
 
         [HttpPost]
-        public async Task<RedirectResult> Login(LoginViewModel request)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
-            if (request.Email == null)
-            {
-                TempData["msg-login"] = "Please insert your e-mail";
-                return Redirect("/Account/Login");
-            }
-
-            if (request.Password == null)
-            {
-                TempData["msg-login"] = "Please insert you password";
-                return Redirect("/Account/Login");
-            }
-
 
             try
             {
-                await _accessService.AuthenticatedUser(request.Email, request.Password);
-                return Redirect("/User/Manage");
+                if (ModelState.IsValid)
+                {
+                    await _accessService.AuthenticatedUser(model.Email, model.Password);
+                    return Redirect("/User");
+                }
+
+                return View(model);
             }
-            catch (Exception ex)
+            catch
             {
-                TempData["msg-login"] = ex.Message;
-                return Redirect("/Account/Login");
+                return View(model);
             }
         }
 
         [HttpPost]
-        public async Task<RedirectToActionResult> Register(RegisterViewModel request)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Register(RegisterUserViewModel viewModel)
         {
-            if (request.Email == null)
-            {
-                TempData["msg-register"] = "Please insert your e-mail";
-                return RedirectToAction("Register");
-            }
-
-            if (request.Password == null)
-            {
-                TempData["msg-register"] = "Please insert you password";
-                return RedirectToAction("Register");
-            }
-
-            if (request.ConfirmPassword != request.Password)
-            {
-                TempData["msg-register"] = "Passwords differs";
-                return RedirectToAction("Register");
-            }
-
             try
             {
-                await _accessService.RegisterUsuario(request.Email, request.Password);
-                TempData["msg-register"] = "Register Successful";
-                return RedirectToAction("Login");
+                if (ModelState.IsValid)
+                {
+                    await _accessService.RegisterUsuario(viewModel);
+                    return RedirectToAction("Login");
+                }
+
+                return View(viewModel);
             }
-            catch (Exception ex)
+            catch
             {
-                TempData["error-register"] = ex.Message;
-                return RedirectToAction("Register");
+                return View(viewModel);
             }
 
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await _accessService.Logout();
+            return View("~/Views/Home/Index.cshtml");
         }
 
         [HttpGet]
         public IActionResult Login()
         {
             var viewModel = new LoginViewModel();
-            viewModel.Message = (string)TempData["msg-login"];
 
             return View(viewModel);
         }
@@ -96,10 +79,7 @@ namespace Atividade.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            var viewModel = new RegisterViewModel();
-
-            viewModel.Message = (string)TempData["msg-register"];
-
+            var viewModel = new RegisterUserViewModel();
             return View(viewModel);
         }
 
@@ -114,7 +94,7 @@ namespace Atividade.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public bool isAuthenticated()
+        public bool IsAuthenticated()
         {
             return true;
         }

@@ -1,0 +1,61 @@
+﻿@model Atividade.RequestModel.GuestRequestModel
+
+@{
+    ViewData["Title"] = "New Guest";
+}
+
+<h1>New Guest</h1>
+
+<h4>Guest's data</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="Document" class="control-label"></label>
+                    <input asp-for="Document" class="form-control" />
+                    <span asp-validation-for="Document" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-6">
+                    <label asp-for="IdEvent" class="control-label"></label>
+                    <select class="form-control" asp-for="IdEvent">
+                        <option>Select Event</option>
+                        @foreach (var item in Model.Events)
+                        {
+                            <option value="@item.Id">@item.Descrition</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdSituationGuest" class="text-danger"></span>
+                </div>
+                <div class="form-group col-6">
+                    <label asp-for="IdSituationGuest" class="control-label"></label>
+                    <select class="form-control" asp-for="IdSituationGuest">
+                        <option>Select Situation</option>
+                        @foreach (var item in Model.GuestSituations)
+                        {
+                            <option value="@item.Id">@item.Descrition</option>
+                        }
+                    </select>
+                    <span asp-validation-for="IdSituationGuest" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="All">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

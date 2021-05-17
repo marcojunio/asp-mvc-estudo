@@ -1,3 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Menu";
 }
+
+<div class="row">
+    <div class="col-6">
+        <div class="list-group">
+            <a class="list-group-item list-group-item-action" asp-controller="Client" asp-action="All">Client</a>
+            <a class="list-group-item list-group-item-action" asp-controller="Event" asp-action="All">Event</a>
+            <a class="list-group-item list-group-item-action" asp-controller="Local" asp-action="All">Local</a>
+            <a class="list-group-item list-group-item-action" asp-controller="Guest" asp-action="All">Guest</a>
+            <a class="list-group-item list-group-item-action" asp-controller="SituationEvent" asp-action="All">Situation Event</a>
+            <a class="list-group-item list-group-item-action" asp-controller="GuestSituation" asp-action="All">Guest Situation</a>
+            <a class="list-group-item list-group-item-action" asp-controller="TypeEvent" asp-action="All">Type Event</a>
+        </div>
+    </div>
+</div>
